@@ -1,0 +1,22 @@
+name: Surf Alarm täglich 18 Uhr
+
+on:
+  schedule:
+    - cron: '0 16 * * *'  # 16:00 UTC = 18:00 Uhr deutsche Sommerzeit (CEST)
+
+jobs:
+  surf-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Python aufsetzen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Surf Alarm ausführen
+        env:
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+        run: python surf_alarm.py
